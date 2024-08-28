@@ -1,53 +1,76 @@
-//Import the OpenAPI Large Language Model (you can import other models here eg. Cohere)
+// Import the OpenAPI Large Language Model (you can import other models here eg. Cohere)
 import { OpenAI } from "@langchain/openai";
 import { BufferMemory } from "langchain/memory";
 import { ConversationChain } from "langchain/chains";
 
-//Import the PromptTemplate module
+// Import the PromptTemplate module
 import { PromptTemplate } from "@langchain/core/prompts";
 
-//Load environment variables (populate process.env from .env file)
+// Load environment variables (populate process.env from .env file)
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export const run = async () => {
-  //Instantiate the BufferMemory passing the memory key for storing state
-  const memory = new BufferMemory({ memoryKey: "chat_history" });
+export const run = async (n: number) => {
+  // Instantiate BufferMemory for each AI to maintain separate chat histories
+  const memoryAI1 = new BufferMemory({ memoryKey: "chat_history" });
+  const memoryAI2 = new BufferMemory({ memoryKey: "chat_history" });
 
-  //Instantiante the OpenAI model
-  //Pass the "temperature" parameter which controls the RANDOMNESS of the model's output. A lower temperature will result in more predictable output, while a higher temperature will result in more random output. The temperature parameter is set between 0 and 1, with 0 being the most predictable and 1 being the most random
-  const model = new OpenAI({ temperature: 0.9 });
+  // Instantiate the OpenAI model for each AI
+  const modelAI1 = new OpenAI({ temperature: 0.7 });
+  const modelAI2 = new OpenAI({ temperature: 0.7 });
 
-  //Create the template. The template is actually a "parameterized prompt". A "parameterized prompt" is a prompt in which the input parameter names are used and the parameter values are supplied from external input
-  //Note the input variables {chat_history} and {input}
-  const template = `The following is a friendly conversation between a human and an AI. The AI is talkative and provides lots of specific details from its context. If the AI does not know the answer to a question, it truthfully says it does not know.
+  // Create the template for the conversation
+  const templateAI1 = `
+      AI1: Let's discuss building a CRUD app. What do you think is the first step?
       Current conversation:
       {chat_history}
-      Human: {input}
-      AI:`;
+      AI2: {input}
+      AI1:`;
 
-  //Instantiate "PromptTemplate" passing the prompt template string initialized above
-  const prompt = PromptTemplate.fromTemplate(template);
+  const templateAI2 = `
+      AI2: That's a great idea. We should start with setting up the project structure. What do you think should be included in the project setup?
+      Current conversation:
+      {chat_history}
+      AI1: {input}
+      AI2:`;
 
-  const chain = new ConversationChain({
-    memory: memory,
-    prompt: prompt,
-    llm: model,
+  // Instantiate PromptTemplate for each AI
+  const promptAI1 = PromptTemplate.fromTemplate(templateAI1);
+  const promptAI2 = PromptTemplate.fromTemplate(templateAI2);
+
+  // Create conversation chains for each AI
+  const chainAI1 = new ConversationChain({
+    memory: memoryAI1,
+    prompt: promptAI1,
+    llm: modelAI1,
   });
 
-  //Run the chain passing a value for the {input} variable. The result will be stored in {chat_history}
-  const res1 = await chain.call({ input: "Hi! I'm Morpheus." });
-  console.log({ res1 });
-
-  //Run the chain again passing a value for the {input} variable. This time, the response from the last run ie. the  value in {chat_history} will alo be passed as part of the prompt
-  const res2 = await chain.call({ input: "What's my name?" });
-  console.log({ res2 });
-
-  //BONUS!!
-  const res3 = await chain.call({
-    input: "Which epic movie was I in and who was my protege?",
+  const chainAI2 = new ConversationChain({
+    memory: memoryAI2,
+    prompt: promptAI2,
+    llm: modelAI2,
   });
-  console.log({ res3 });
+
+  // Start the conversation with AI1
+  let responseAI1 = await chainAI1.call({
+    input: "Hi, I'm AI1. Let's discuss building a CRUD app.",
+  });
+  console.log("\nAI1:", responseAI1.response);
+
+  let responseAI2;
+  for (let i = 0; i < n; i++) {
+    // Alternate between AI1 and AI2
+    responseAI2 = await chainAI2.call({
+      input: responseAI1.response, // Pass AI1's response as input to AI2
+    });
+    console.log("\nAI2:", responseAI2.response);
+
+    responseAI1 = await chainAI1.call({
+      input: responseAI2.response, // Pass AI2's response back to AI1
+    });
+    console.log("\nAI1:", responseAI1.response);
+  }
 };
 
-run();
+// Call the run function with the desired number of conversation turns
+run(15); // Replace 5 with the desired number of turns
