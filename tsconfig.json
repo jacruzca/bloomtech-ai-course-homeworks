@@ -8,6 +8,6 @@
     "strict": true,
     "outDir": "./dist"
   },
-  "include": ["src/**/*"],
+  "include": ["lesson-1-llms/src/**/*"],
   "exclude": ["node_modules", "dist"]
 }

@@ -26,7 +26,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node ./dist/app.js",
-    "dev": "npx tsx src/app.ts"
+    "lesson1": "npx tsx lesson-1-llms/src/app.ts"
   },
   "devDependencies": {
     "@types/node": "^22.5.1",
