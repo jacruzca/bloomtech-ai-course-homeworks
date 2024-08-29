@@ -21,12 +21,14 @@ export const run = async (n: number) => {
 
   // Create the template for the conversation
   const templateAI1 = `
+    AI1 is a senior software engineer discussing the process of building a CRUD app, focusing on backend architecture. Keep the conversation concise and focus on key points.
       Current conversation:
       {chat_history}
       AI2: {input}
       AI1:`;
 
   const templateAI2 = `
+  AI2 is a front-end developer discussing the process of building a CRUD app, focusing on user interface and experience. Keep the conversation concise and focus on key points.
       Current conversation:
       {chat_history}
       AI1: {input}
