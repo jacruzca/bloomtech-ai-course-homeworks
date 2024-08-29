@@ -26,7 +26,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node ./dist/app.js",
-    "lesson1": "npx tsx lesson-1-llms/src/app.ts"
+    "lesson1": "npx tsx lesson-1-llms/src/app.ts",
+    "lesson2": "npx tsx lesson-2-langsmith/src/app.ts"
   },
   "devDependencies": {
     "@types/node": "^22.5.1",
