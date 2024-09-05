@@ -27,7 +27,8 @@
     "build": "tsc",
     "start": "node ./dist/app.js",
     "lesson1": "npx tsx lesson-1-llms/src/app.ts",
-    "lesson2": "npx tsx lesson-2-langsmith/src/app.ts"
+    "lesson2": "npx tsx lesson-2-langsmith/src/app.ts",
+    "lesson3": "npx tsx week2-guided/src/app.ts"
   },
   "devDependencies": {
     "@types/node": "^22.5.1",
@@ -35,9 +36,13 @@
     "tsx": "^4.19.0"
   },
   "dependencies": {
+    "@langchain/community": "^0.2.31",
     "@langchain/openai": "^0.2.8",
     "dotenv": "^16.4.5",
     "langchain": "^0.2.17",
-    "openai": "^4.56.1"
+    "langsmith": "^0.1.48",
+    "octokit": "4.0.2",
+    "openai": "^4.56.1",
+    "uuid": "^10.0.0"
   }
 }
