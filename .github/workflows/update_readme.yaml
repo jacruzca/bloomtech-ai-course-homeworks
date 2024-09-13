@@ -1,0 +1,38 @@
+name: Run Lesson 3 on Merge or Manually
+
+on:
+  pull_request:
+    types:
+      - closed
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  run-lesson3:
+    if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    env:
+      OWNER: jacruzca
+      REPO: bloomtech-ai-course-homeworks
+      PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number || '1' }} # Default to 1 if running manually
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
+      LANGCHAIN_TRACING_V2: ${{ secrets.LANGCHAIN_TRACING_V2 }}
+      LANGCHAIN_PROJECT: ${{ secrets.LANGCHAIN_PROJECT }}
+      LANGCHAIN_ENDPOINT: ${{ secrets.LANGCHAIN_ENDPOINT }}
+      MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+      LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "14"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Lesson 3 script
+        run: npm run lesson3
