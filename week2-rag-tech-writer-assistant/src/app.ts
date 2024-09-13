@@ -5,9 +5,10 @@ import {
   findAdjacentReadmeFilesFromDiff,
   getCommitMessagesOfPullRequest,
   getDiffFilesOfPullRequest,
+  getPullRequest,
 } from "./github-util";
 import { buildDocumentsForVectorStore, callOpenAI } from "./ai-util";
-import { getAllLinearIssues, getLinearIssueByUrl } from "./linear-util";
+import { getAllLinearIssues } from "./linear-util";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
 dotenv.config();
@@ -39,9 +40,7 @@ export const run = async () => {
     REPO
   );
 
-  const issue = await getLinearIssueByUrl(
-    "https://linear.app/jhon-cruz/issue/JHO-10/issue-with-project-1"
-  );
+  const pullRequest = await getPullRequest(OWNER, REPO, PULL_REQUEST_NUMBER);
 
   const allIssues = await getAllLinearIssues();
 
@@ -63,7 +62,7 @@ export const run = async () => {
       commitMessages: commitMessages.map((commit) => commit.message),
       adjacentFilesToReadme: value.diffs.map((diff) => diff.filename),
       readmeContents: value.contents,
-      vectorStoreInput: `Give me a list of issues related to this PR: ${issue.title}`,
+      vectorStoreInput: `Give me a list of issues related to this PR. Title: ${pullRequest.title} \n Description: ${pullRequest.body}`,
       vectorStore,
     });
 
