@@ -1,14 +1,34 @@
-# Lesson 1 - LLMs
+# Project Title
 
-This is the homework for lesson 1. The goal is to implement a simple language model using OpenAI's API.
+## Overview
+This project is designed to help users understand and interact with large language models (LLMs). The application has been structured to enhance usability and organization.
 
-The idea is to develop a conversation between two LLMs discussing the process of building a CRUD app, leveraging different perspectives and techniques to maintain chat history effectively.
+## Updates
+- The folder structure has been reorganized to improve clarity and maintainability of the codebase.
 
-## Files
+## Installation
+Follow the instructions below to set up the project locally.
 
-- app.ts: The main file that contains the code for the language model.
+1. Clone the repository.
+2. Navigate to the project directory.
+3. Install the necessary dependencies.
 
-## How to run
+## Usage
+To start the application, run the following command in your terminal:
 
-- npm install
-- npm run lesson1
+```bash
+npm start
+```
+
+## Contributing
+We welcome contributions! Please ensure that your code adheres to the project's style guidelines and includes appropriate documentation.
+
+## License
+This project is licensed under the MIT License.
+
+## Issues
+If you encounter any issues, please check the [issues page](https://github.com/your-repo/issues) for known bugs and feature requests.
+
+---
+
+Feel free to reach out with any questions or suggestions!
