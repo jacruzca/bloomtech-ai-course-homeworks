@@ -226,3 +226,95 @@ export const getCommitMessagesOfPullRequest = async (
 
   return commitList;
 };
+
+/**
+ * Creates a new pull request based on the main branch, with updated README files.
+ *
+ * This function:
+ * - Creates a new branch from the main branch.
+ * - Updates the README files with new content.
+ * - Commits the changes to the new branch.
+ * - Opens a new pull request.
+ *
+ * @param {string} owner - The owner of the repository.
+ * @param {string} repo - The name of the repository.
+ * @param {number} number - The pull request number to base the new pull request message on.
+ * @param {Map<string, string>} results - A map of README file paths and their updated content.
+ *    - The keys are the paths to the README files.
+ *    - The values are the updated content for each README file.
+ * @returns {Promise<void>} - A promise that resolves when the new pull request is successfully created.
+ *
+ * @throws {Error} - Throws an error if the pull request or file update fails.
+ *
+ * Usage example:
+ *
+ * const updatedReadmeMap = new Map([
+ *   ['README.md', '# Updated README content'],
+ *   ['docs/README.md', '# Updated Docs README content']
+ * ]);
+ *
+ * await createPullRequest('my-owner', 'my-repo', 42, updatedReadmeMap);
+ */
+export const createPullRequest = async (
+  owner: string,
+  repo: string,
+  number: number,
+  results: Map<string, string>
+): Promise<void> => {
+  const octokit = getOctokit();
+
+  // Get the latest commit SHA from the main branch
+  const { data: mainBranch } = await octokit.rest.repos.getBranch({
+    owner: owner,
+    repo: repo,
+    branch: "main",
+  });
+
+  const newBranch = `update-readme-${Date.now()}`;
+
+  // Create a new branch from the main branch
+  await octokit.rest.git.createRef({
+    owner: owner,
+    repo: repo,
+    ref: `refs/heads/${newBranch}`,
+    sha: mainBranch.commit.sha, // Use the latest commit SHA from the main branch
+  });
+
+  // For each README file, update the content and create a new commit
+  for (const [readmePath, updatedContent] of results.entries()) {
+    // Get the current README file information (sha is needed to update the file)
+    const { data: readmeFile } = await octokit.rest.repos.getContent({
+      owner: owner,
+      repo: repo,
+      path: readmePath,
+      ref: newBranch,
+    });
+
+    // Ensure the response contains the content field
+    // types of octokit are a mess, so we need to check if the content field is present
+    if ("content" in readmeFile) {
+      // Update the README file with the new content
+      await octokit.rest.repos.createOrUpdateFileContents({
+        owner: owner,
+        repo: repo,
+        path: readmePath,
+        message: `Update README file at ${readmePath}`,
+        content: Buffer.from(updatedContent).toString("base64"), // GitHub expects content in base64
+        sha: readmeFile.sha, // required to update the file
+        branch: newBranch,
+      });
+    }
+  }
+
+  // Create a new pull request
+  await octokit.rest.pulls.create({
+    owner: owner,
+    repo: repo,
+    title: `Update README files`,
+    head: newBranch,
+    base: "main", // Now the base is the main branch
+    body: `This pull request updates the README files based on the changes in pull request #${number}.`,
+  });
+
+  console.log(`New pull request created successfully from PR #${number}`);
+};

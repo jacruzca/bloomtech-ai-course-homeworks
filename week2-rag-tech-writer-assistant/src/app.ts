@@ -1,33 +1,26 @@
 // Load environment variables (populate process.env from .env file)
 import * as dotenv from "dotenv";
-import { Endpoints } from "@octokit/types";
 import {
+  createPullRequest,
   findAdjacentReadmeFilesFromDiff,
   getCommitMessagesOfPullRequest,
   getDiffFilesOfPullRequest,
 } from "./github-util";
-import {
-  buildDocumentsForVectorStore,
-  buildPromptForASingleReadmeFile,
-  callOpenAI,
-} from "./ai-util";
-import {
-  getAllLinearIssues,
-  getLinearIssueByUrl,
-  getRelatedIssues,
-} from "./linear-util";
+import { buildDocumentsForVectorStore, callOpenAI } from "./ai-util";
+import { getAllLinearIssues, getLinearIssueByUrl } from "./linear-util";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
 dotenv.config();
 
-type ContentParams =
-  Endpoints["GET /repos/{owner}/{repo}/contents/{path}"]["response"]["data"];
-
-const OWNER = "jacruzca";
-const REPO = "bloomtech-ai-course-homeworks";
-const PULL_REQUEST_NUMBER = 1;
+const OWNER = process.env.OWNER;
+const REPO = process.env.REPO;
+const PULL_REQUEST_NUMBER = parseInt(process.env.PULL_REQUEST_NUMBER ?? "0");
 
 export const run = async () => {
+  if (!OWNER || !REPO || !PULL_REQUEST_NUMBER) {
+    throw new Error("Missing environment variables");
+  }
+
   const diffFiles = await getDiffFilesOfPullRequest(
     OWNER,
     REPO,
@@ -62,6 +55,8 @@ export const run = async () => {
 
   await vectorStore.addDocuments(documents);
 
+  const results = new Map<string, string>();
+
   for (const [key, value] of adjacentReadme.entries()) {
     const res = await callOpenAI({
       diffFiles: value.diffs,
@@ -72,8 +67,14 @@ export const run = async () => {
       vectorStore,
     });
 
-    console.log("rest: " + key, res);
+    const resultAsString = res.toDict().data.content;
+
+    results.set(key, resultAsString);
+
+    console.log(`Result for ${key}: ${resultAsString}`);
   }
+
+  await createPullRequest(OWNER, REPO, PULL_REQUEST_NUMBER, results);
 };
 
 // Call the run function with the desired number of conversation turns
