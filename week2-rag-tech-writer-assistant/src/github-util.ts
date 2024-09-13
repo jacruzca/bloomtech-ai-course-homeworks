@@ -208,6 +208,20 @@ const findReadmeInDirectory = async (
   return null;
 };
 
+export const getPullRequest = async (
+  owner: string,
+  repo: string,
+  number: number
+) => {
+  const octokit = getOctokit();
+  const { data: pr } = await octokit.rest.pulls.get({
+    owner: owner,
+    repo: repo,
+    pull_number: number,
+  });
+  return pr;
+};
+
 export const getCommitMessagesOfPullRequest = async (
   owner: string,
   repo: string,
