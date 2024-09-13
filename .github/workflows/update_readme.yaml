@@ -13,7 +13,8 @@ jobs:
     env:
       OWNER: jacruzca
       REPO: bloomtech-ai-course-homeworks
-      PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number || '1' }} # Default to 1 if running manually
+      # PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number || '1' }} # Default to 1 if running manually
+      PULL_REQUEST_NUMBER: 3
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
       LANGCHAIN_TRACING_V2: ${{ secrets.LANGCHAIN_TRACING_V2 }}
@@ -29,7 +30,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "14"
+          node-version: "18"
 
       - name: Install dependencies
         run: npm install
