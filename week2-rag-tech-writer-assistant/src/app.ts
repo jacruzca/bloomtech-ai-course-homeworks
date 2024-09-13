@@ -6,8 +6,18 @@ import {
   getCommitMessagesOfPullRequest,
   getDiffFilesOfPullRequest,
 } from "./github-util";
-import { buildPromptForASingleReadmeFile, callOpenAI } from "./ai-util";
-import { getLinearIssueByUrl } from "./linear-util";
+import {
+  buildDocumentsForVectorStore,
+  buildPromptForASingleReadmeFile,
+  callOpenAI,
+} from "./ai-util";
+import {
+  getAllLinearIssues,
+  getLinearIssueByUrl,
+  getRelatedIssues,
+} from "./linear-util";
+import { OpenAIEmbeddings } from "@langchain/openai";
+import { MemoryVectorStore } from "langchain/vectorstores/memory";
 dotenv.config();
 
 type ContentParams =
@@ -36,23 +46,34 @@ export const run = async () => {
     REPO
   );
 
-  const res = await getLinearIssueByUrl(
+  const issue = await getLinearIssueByUrl(
     "https://linear.app/jhon-cruz/issue/JHO-10/issue-with-project-1"
   );
 
-  console.log("res", res);
+  const allIssues = await getAllLinearIssues();
 
-  // for (const [key, value] of adjacentReadme.entries()) {
-  //   const prompt = await buildPromptForASingleReadmeFile(
-  //     value.diffs,
-  //     commitMessages.map((commit) => commit.message),
-  //     value.diffs.map((diff) => diff.filename),
-  //     value.contents
-  //   );
+  const embeddings = new OpenAIEmbeddings({
+    model: "text-embedding-3-small",
+  });
 
-  //   const res = await callOpenAI(prompt);
-  //   console.log("rest: " + key, res);
-  // }
+  const vectorStore = new MemoryVectorStore(embeddings);
+
+  const documents = buildDocumentsForVectorStore(allIssues);
+
+  await vectorStore.addDocuments(documents);
+
+  for (const [key, value] of adjacentReadme.entries()) {
+    const res = await callOpenAI({
+      diffFiles: value.diffs,
+      commitMessages: commitMessages.map((commit) => commit.message),
+      adjacentFilesToReadme: value.diffs.map((diff) => diff.filename),
+      readmeContents: value.contents,
+      vectorStoreInput: `Give me a list of issues related to this PR: ${issue.title}`,
+      vectorStore,
+    });
+
+    console.log("rest: " + key, res);
+  }
 };
 
 // Call the run function with the desired number of conversation turns
