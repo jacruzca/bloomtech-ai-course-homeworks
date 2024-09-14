@@ -1,8 +1,6 @@
 # Week 2 - Session 1 - Tech writer assistant
 
-This is the homework for lesson 2. The goal is to play around with Langsmith, a tool that allows you to gain insights into interactions between your code, LLMs, vector databases, and more.
-
-The idea is just to interact with Langsmith and see how it works.
+This is the project for the first session of week 2. The goal is to create an agent that can help update the documentation (README.md files) for a project.
 
 ## Files
 
@@ -10,5 +8,7 @@ The idea is just to interact with Langsmith and see how it works.
 
 ## How to run
 
+Setup the env variables
+
 - npm install
-- npm run lesson2
+- npm run lesson3
