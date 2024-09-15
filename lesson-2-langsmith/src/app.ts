@@ -55,6 +55,10 @@ const client = new Client();
 import * as dotenv from "dotenv";
 dotenv.config();
 
+/**
+ * Main function to run the OpenAI agent with the provided tools and prompt.
+ * Fetches the prompt from the LangSmith hub, creates the agent, and executes it on a dataset.
+ */
 const run = async () => {
   const tools = [new TavilySearchResults()];
 
