@@ -15,6 +15,13 @@ export type Diff = {
   patch: string | undefined;
 };
 
+/**
+ * Get the list of files modified in a pull request.
+ * @param owner - The repository owner.
+ * @param repo - The repository name.
+ * @param pullNumber - The pull request number.
+ * @returns Array of files changed in the pull request.
+ */
 export const getDiffFilesOfPullRequest = async (
   owner: string,
   repo: string,

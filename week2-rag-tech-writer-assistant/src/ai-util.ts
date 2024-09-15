@@ -42,6 +42,19 @@ type PromptContext = {
   vectorStore: MemoryVectorStore;
 };
 
+/**
+ * Calls the OpenAI model to analyze the context and generate a response based on the input parameters.
+ *
+ * @param {Object} params - Object containing all input parameters for the function.
+ * @param {string[]} params.diffFiles - List of filenames that have been modified in the pull request.
+ * @param {string[]} params.commitMessages - List of commit messages associated with the pull request.
+ * @param {string[]} params.adjacentFilesToReadme - List of filenames adjacent to the README files.
+ * @param {string} params.readmeContents - Contents of the README file related to the pull request.
+ * @param {string} params.vectorStoreInput - Input string to be used for querying the vector store.
+ * @param {MemoryVectorStore} params.vectorStore - The vector store containing embeddings for contextual information.
+ *
+ * @returns {Promise<any>} - The generated response from the OpenAI model based on the provided context.
+ */
 export const callOpenAI = async (context: PromptContext) => {
   const model = new ChatOpenAI({ model: "gpt-4o-mini", temperature: 0.7 });
   const {
@@ -80,7 +93,7 @@ export const callOpenAI = async (context: PromptContext) => {
 
   // Initialize a retriever wrapper around the vector store
   const vectorStoreRetriever = vectorStore.asRetriever({
-    k: 2,
+    k: 4,
   });
 
   const result = await vectorStoreRetriever.invoke(vectorStoreInput);
