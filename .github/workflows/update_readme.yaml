@@ -13,8 +13,7 @@ jobs:
     env:
       OWNER: jacruzca
       REPO: bloomtech-ai-course-homeworks
-      # PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number || '1' }} # Default to 1 if running manually
-      PULL_REQUEST_NUMBER: 3
+      PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number || '13' }} # Default to 1 if running manually
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
       LANGCHAIN_TRACING_V2: ${{ secrets.LANGCHAIN_TRACING_V2 }}
