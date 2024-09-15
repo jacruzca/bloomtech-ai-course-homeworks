@@ -15,6 +15,7 @@ import { MemoryVectorStore } from "langchain/vectorstores/memory";
 dotenv.config();
 
 // Constants derived from environment variables
+// Make sure to set them in github secrets as well
 const OWNER = process.env.OWNER;
 const REPO = process.env.REPO;
 const PULL_REQUEST_NUMBER = parseInt(process.env.PULL_REQUEST_NUMBER ?? "0");

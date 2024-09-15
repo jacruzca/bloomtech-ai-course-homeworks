@@ -10,6 +10,10 @@ import { PromptTemplate } from "@langchain/core/prompts";
 import * as dotenv from "dotenv";
 dotenv.config();
 
+/**
+ * This function runs a conversation between two AI models discussing the process of building a CRUD app.
+ * @param n the number of conversation turns
+ */
 export const run = async (n: number) => {
   // Instantiate BufferMemory for each AI to maintain separate chat histories
   const memoryAI1 = new BufferMemory({ memoryKey: "chat_history" });
