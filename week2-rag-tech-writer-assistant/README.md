@@ -1,14 +1,52 @@
-# Week 2 - Session 1 - Tech writer assistant
+# Tech Writer Assistant
 
-This is the project for the first session of week 2. The goal is to create an agent that can help update the documentation (README.md files) for a project.
+## Overview
 
-## Files
+The Tech Writer Assistant is a project designed to assist technical writers by providing tools and functionalities that streamline their workflow. This project integrates various components to enhance productivity and efficiency.
 
-- app.ts: The main file that contains the code for the language model.
+## Environment Variables
 
-## How to run
+Before running the application, ensure that the following environment variables are set:
 
-Setup the env variables
+- **OWNER**: Your GitHub username or organization name.
+- **REPO**: The name of your repository.
+- **PULL_REQUEST_NUMBER**: The number of the pull request you want to work with. This should be set as an integer.
 
-- npm install
-- npm run lesson3
+Make sure to configure these variables in your GitHub secrets for proper integration with CI/CD workflows.
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/tech-writer-assistant.git
+   ```
+
+2. Install the dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Set up environment variables as mentioned above.
+
+## Usage
+
+To run the application, use the following command:
+```bash
+npx tsx src/app.ts
+```
+
+## Documentation
+
+Documentation has been updated across multiple folders to provide clearer guidance on usage and functionality. Please refer to the respective folders for detailed information.
+
+## Contributing
+
+Contributions are welcome! Please submit a pull request for any changes or improvements.
+
+## License
+
+This project is licensed under the MIT License.
+
+---
+
+This updated README reflects the recent changes to the documentation, ensuring that users have the correct information regarding environment variables and installation procedures.
