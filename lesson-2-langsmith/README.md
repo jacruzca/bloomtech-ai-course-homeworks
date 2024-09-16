@@ -1,3 +1,4 @@
+```markdown
 # Tech Writer Project
 
 ## Overview
@@ -54,3 +55,4 @@ This project is licensed under the MIT License.
 ---
 
 This README reflects the latest updates in the code and provides clear guidance for users and contributors.
+```
