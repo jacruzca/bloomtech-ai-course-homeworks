@@ -49,4 +49,4 @@ This project is licensed under the MIT License.
 
 ---
 
-This updated README reflects the recent changes to the documentation, ensuring that users have the correct information regarding environment variables and installation procedures.
+This updated README reflects the recent changes to the documentation, ensuring that users have the correct information regarding environment variables and installation procedures. Additionally, the documentation now includes a more comprehensive overview of the project and its functionalities to better assist users.
