@@ -1,14 +1,49 @@
-# Lesson 1 - LLMs
+# Tech Writer Project README
 
-This is the homework for lesson 1. The goal is to implement a simple language model using OpenAI's API.
+## Overview
 
-The idea is to develop a conversation between two LLMs discussing the process of building a CRUD app, leveraging different perspectives and techniques to maintain chat history effectively.
+This project is designed to facilitate the development and understanding of AI conversation models, specifically in the context of building CRUD applications. 
 
-## Files
+## Features
 
-- app.ts: The main file that contains the code for the language model.
+- Conversation simulation between AI models.
+- Ability to manage and maintain chat histories using memory.
 
-## How to run
+## Functions
 
-- npm install
-- npm run lesson1
+### `run(n: number)`
+
+This function initiates a conversation between two AI models, discussing the process of building a CRUD app. It allows for a specified number of conversation turns, enabling thorough exploration of topics related to CRUD operations.
+
+**Parameters:**
+- `n`: The number of conversation turns the models will engage in.
+
+## Installation
+
+To get started, clone the repository and install the necessary dependencies:
+
+```bash
+git clone <repository-url>
+cd <repository-directory>
+npm install
+```
+
+## Usage
+
+Ensure to configure your environment variables as required by the application. You can run the application with the following command:
+
+```bash
+npx tsx src/app.ts
+```
+
+## Contribution
+
+Please adhere to the coding standards and guidelines when contributing to this project. Documentation updates are encouraged to help improve the clarity and usability of the codebase.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+Thank you to all contributors for their efforts in improving this project. Your contributions help make the project better and more accessible to all users.
