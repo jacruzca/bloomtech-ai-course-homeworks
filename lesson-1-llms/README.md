@@ -46,4 +46,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Acknowledgments
 
-Thank you to all contributors for their efforts in improving this project. Your contributions help make the project better and more accessible to all users.
+Thank you to all contributors for their efforts in improving this project. Your contributions help make the project better and more accessible to all users. 
+
+## Recent Updates
+
+- Updated function documentation in the README to improve clarity.
+- Added features and installation instructions to enhance usability for new users. 
+
+This updated README now reflects the recent changes made in the code, ensuring that instructors and contributors have a clear understanding of the project and its functionalities.
