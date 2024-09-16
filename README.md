@@ -6,4 +6,4 @@ This repo contains the homeworks for the Bloomtech AI course. You will find a RE
 
 - [Lesson 1 - LLMs](./lesson-1-llms)
 - [Lesson 2 - Langsmith](./lesson-2-langsmith)
-- [Week 2 - RAG Guided](./week2-rag-guided)
+- [Week 2 - Guide project - Tech writer assistant](./week2-rag-tech-writer-assistant)
