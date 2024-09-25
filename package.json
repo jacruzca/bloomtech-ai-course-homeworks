@@ -29,7 +29,8 @@
     "lesson1": "npx tsx lesson-1-llms/src/app.ts",
     "lesson2": "npx tsx lesson-2-langsmith/src/app.ts",
     "lesson3": "npx tsx week2-rag-tech-writer-assistant/src/app.ts",
-    "tools": "npx tsx week3-tools/src/app.ts"
+    "tools": "npx tsx week3-tools/src/app.ts",
+    "levelsblog": "npx tsx week4-rag-levels-blog/src/app.ts"
   },
   "devDependencies": {
     "@types/lodash": "^4.17.7",
@@ -41,6 +42,7 @@
     "@langchain/community": "^0.2.31",
     "@langchain/openai": "^0.2.8",
     "@linear/sdk": "^29.0.0",
+    "@supabase/supabase-js": "2.45.4",
     "dotenv": "^16.4.5",
     "langchain": "^0.2.17",
     "langsmith": "^0.1.48",
